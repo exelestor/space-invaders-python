@@ -3,11 +3,12 @@ import random
 import time
 import os
 import platform
+import logging
 
 WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 576
 BGCOLOR = '#001133'
-DEBUG = False
+LOGLEVEL = 'DEBUG'
 
 if platform.system() == 'Windows':
     keycodes = {
@@ -52,6 +53,10 @@ elif platform.system() == 'Linux':
 else:
     print('OS is not supported.')
     exit(1)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(getattr(logging, LOGLEVEL))
+logging.basicConfig(format=u'%(asctime)s [%(levelname)s]  [%(filename)s:%(lineno)d] %(message)s', stream=sys.stdout)
 
 # Класс для хранения игровых переменных
 class Options:
@@ -246,9 +251,7 @@ class Keyboard:
     # одновременно и делать выстрел независимо от того,
     # выполняется ли перемещение на данный момент.
     def keydown(self, event):
-        if DEBUG:
-            print(event)
-        if event.keycode == 38:
+        logger.debug(event)
         if event.keycode == keycodes["up"]:
             self.up = True
         elif event.keycode == keycodes["down"]:
@@ -506,8 +509,7 @@ class Shot:
     # при удалении пули убираем её с экрана
     def __del__(self):
         canvas.delete(self.item)
-        if DEBUG:
-            print('Shot of player ' + str(self.number) + ' destroyed.')
+        logger.debug('Shot of player {} destroyed'.format(self.number))
 
     def check_collision(self):
         for i in enemies:
@@ -515,8 +517,7 @@ class Shot:
                 i.decrease_hp()
                 player[self.number].score += 1
                 points_bar.set_points_number(player[self.number].score, self.number)
-                if DEBUG:
-                    print('Player', self.number, 'score:', player[self.number].score)
+                logger.debug('Player {} score: {}'.format(self.number, player[self.number].score))
                 return True
         return False
 
