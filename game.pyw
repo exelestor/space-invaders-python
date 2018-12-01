@@ -2,12 +2,56 @@ from tkinter import *
 import random
 import time
 import os
+import platform
 
 WINDOW_WIDTH = 960
 WINDOW_HEIGHT = 576
 BGCOLOR = '#001133'
 DEBUG = False
 
+if platform.system() == 'Windows':
+    keycodes = {
+        "up":    38,
+        "down":  40,
+        "left":  37,
+        "right": 39,
+    
+        "w": 87,
+        "s": 83,
+        "a": 65,
+        "d": 68,
+        "q": 81,
+        "r": 82,
+        "m": 77,
+    
+        "shot1": 16,
+        "shot0": 45,
+        "start": 13,
+        "help":  72,
+    }
+elif platform.system() == 'Linux':
+    keycodes = {
+        "up":    111,
+        "down":  116,
+        "left":  113,
+        "right": 114,
+    
+        "w": 25,
+        "s": 39,
+        "a": 38,
+        "d": 40,
+        "q": 24,
+        "r": 27,
+        "m": 58,
+    
+        "shot1": 65,
+        "shot0": 105,
+        "start": 36,
+        "help":  43,
+    }
+else:
+    print('OS is not supported.')
+    exit(1)
 
 # Класс для хранения игровых переменных
 class Options:
@@ -205,64 +249,65 @@ class Keyboard:
         if DEBUG:
             print(event)
         if event.keycode == 38:
+        if event.keycode == keycodes["up"]:
             self.up = True
-        elif event.keycode == 40:
+        elif event.keycode == keycodes["down"]:
             self.down = True
-        elif event.keycode == 37:
+        elif event.keycode == keycodes["left"]:
             self.left = True
-        elif event.keycode == 39:
+        elif event.keycode == keycodes["right"]:
             self.right = True
-        elif event.keycode == 87:
+        elif event.keycode == keycodes["w"]:
             self.w = True
-        elif event.keycode == 83:
+        elif event.keycode == keycodes["s"]:
             self.s = True
-        elif event.keycode == 65:
+        elif event.keycode == keycodes["a"]:
             self.a = True
-        elif event.keycode == 68:
+        elif event.keycode == keycodes["d"]:
             self.d = True
-        elif event.keycode == 81:
+        elif event.keycode == keycodes["q"]:
             self.q = True
-        elif event.keycode == 82:
+        elif event.keycode == keycodes["r"]:
             self.r = True
-        elif event.keycode == 77:
+        elif event.keycode == keycodes["m"]:
             self.m = True
-        elif event.keycode == 16:
+        elif event.keycode == keycodes["shot1"]:
             self.shot1 = True
-        elif event.keycode == 45 or event.keycode == 96:
+        elif event.keycode == keycodes["shot0"]:
             self.shot0 = True
-        elif event.keycode == 13:
+        elif event.keycode == keycodes["start"]:
             options.start = True
-        elif event.keycode == 72:
+        elif event.keycode == keycodes["help"]:
             options.help = not options.help
 
     # Если отпустить клавишу, соответствующая переменная
     # принимает значение False.
     def keyup(self, event):
-        if event.keycode == 38:
+        if event.keycode == keycodes["up"]:
             self.up = False
-        elif event.keycode == 40:
+        elif event.keycode == keycodes["down"]:
             self.down = False
-        elif event.keycode == 37:
+        elif event.keycode == keycodes["left"]:
             self.left = False
-        elif event.keycode == 39:
+        elif event.keycode == keycodes["right"]:
             self.right = False
-        elif event.keycode == 87:
+        elif event.keycode == keycodes["w"]:
             self.w = False
-        elif event.keycode == 83:
+        elif event.keycode == keycodes["s"]:
             self.s = False
-        elif event.keycode == 65:
+        elif event.keycode == keycodes["a"]:
             self.a = False
-        elif event.keycode == 68:
+        elif event.keycode == keycodes["d"]:
             self.d = False
-        elif event.keycode == 81:
+        elif event.keycode == keycodes["q"]:
             self.q = False
-        elif event.keycode == 82:
+        elif event.keycode == keycodes["r"]:
             self.r = False
-        elif event.keycode == 77:
+        elif event.keycode == keycodes["m"]:
             self.m = False
-        elif event.keycode == 16:
+        elif event.keycode == keycodes["shot1"]:
             self.shot1 = False
-        elif event.keycode == 45 or event.keycode == 96:
+        elif event.keycode == keycodes["shot0"]:
             self.shot0 = False
 
     # Проверка того, какие действия необходимо выполнить
